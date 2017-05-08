@@ -1,0 +1,56 @@
+burst = []
+priority = []
+process = []
+print("Enter total number of processes")
+n = int(input())
+print("enter burst time and priority")
+for i in range(0,n):
+    print("for process ",i)
+    print("burst time is?")
+    b = int(input())
+    burst = burst + [b]
+    print("priority is:")
+    c = input()
+    priority = priority + [c]
+    process = process + [i]
+for i in range(0,n):
+    pos = i
+
+    for j in range (i+1,n):
+        if priority[j] < priority[pos]:
+            pos = j
+
+    temp = priority[i]
+    priority[i] = priority[pos]
+
+    priority[pos]=temp
+
+    temp=burst[i]
+    burst[i]=burst[pos]
+    burst[pos]=temp
+
+    temp=process[i]
+    process[i]=process[pos]
+    process[pos]=temp
+
+
+waitingtime=[]
+avgwaitingtime=0
+turnaroundtime=[]
+avgturnaroundtime=0
+waitingtime.insert(0,0)
+turnaroundtime.insert(0,burst[0])
+for i in range(1,len(burst)):
+    waitingtime.insert(i,waitingtime[i-1]+burst[i-1])
+    turnaroundtime.insert(i,waitingtime[i]+burst[i])
+    avgwaitingtime+=waitingtime[i]
+    avgturnaroundtime+=turnaroundtime[i]
+avgwaitingtime=float(avgwaitingtime)/n
+avgturnaroundtime=float(avgturnaroundtime)/n
+print("\n")
+print("Process\t  Burst Time\t  Waiting Time\t  Turn Around Time")
+for i in range(0,n):
+    print(process[i],'\t\t\t',burst[i],'\t\t\t\t',waitingtime[i],'\t\t\t\t',turnaroundtime[i])
+    print("\n")
+print("Average Waiting time is: "+str(avgwaitingtime))
+print("Average Turn Arount Time is: "+str(avgturnaroundtime))
